@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --grad: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+.app-bg {
+  background: radial-gradient(60% 60% at 70% 10%, rgba(139,92,246,.15), transparent 60%),
+              radial-gradient(40% 40% at 20% 20%, rgba(236,72,153,.12), transparent 60%),
+              #ffffff;
+}
+
+.hero-grad {
+  background-image: var(--grad);
+}
