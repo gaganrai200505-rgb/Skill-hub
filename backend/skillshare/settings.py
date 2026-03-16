@@ -190,11 +190,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Ensure STATIC_ROOT exists for WhiteNoise
+# Ensure STATIC_ROOT exists
 if not os.path.exists(STATIC_ROOT):
     os.makedirs(STATIC_ROOT, exist_ok=True)
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use standard WhiteNoise storage for better compatibility with Jazzmin
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 STATICFILES_DIRS = []
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
