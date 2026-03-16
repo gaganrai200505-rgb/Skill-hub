@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ud9meyxewy)aesk(h4fp)2#q0_7(ok5x92n_-0#odoxd0vg@$n')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Build ALLOWED_HOSTS list with comprehensive support for Render
 ALLOWED_HOSTS = [
@@ -48,6 +48,24 @@ if os.environ.get('ALLOWED_HOSTS'):
 # Remove duplicates
 ALLOWED_HOSTS = list(set(ALLOWED_HOSTS))
 
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_CONTENT_SECURITY_POLICY = {
+        'default-src': ["'self'"],
+        'script-src': ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
+        'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        'font-src': ["'self'", "fonts.gstatic.com"],
+        'img-src': ["'self'", "data:", "https:"],
+        'connect-src': ["'self'", "https://skill-hub-il65.onrender.com"],
+    }
 
 # Application definition
 
