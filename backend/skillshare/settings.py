@@ -190,13 +190,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Ensure STATIC_ROOT exists
-if not os.path.exists(STATIC_ROOT):
-    os.makedirs(STATIC_ROOT, exist_ok=True)
+# Create staticfiles directory if it doesn't exist
+os.makedirs(STATIC_ROOT, exist_ok=True)
 
-# Use standard WhiteNoise storage for better compatibility with Jazzmin
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+# Configure static files storage for production
+# Use ManifestStaticFilesStorage with WhiteNoise for best Jazzmin compatibility
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 STATICFILES_DIRS = []
+
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
