@@ -8,6 +8,8 @@ import React, {
 import { useAuth } from "../state/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+
 const Chat = () => {
   const { user, accessToken } = useAuth();
   const [conversations, setConversations] = useState([]);
@@ -80,7 +82,7 @@ const Chat = () => {
 
   const fetchConversations = useCallback(async () => {
     try {
-      const res = await authFetch("http://127.0.0.1:8000/api/chat/conversations/");
+      const res = await authFetch(`${API_BASE}/api/chat/conversations/`);
       if (!res.ok) return;
 
       const data = await res.json();
@@ -106,7 +108,7 @@ const Chat = () => {
     async (conversationId) => {
       try {
         const res = await authFetch(
-          `http://127.0.0.1:8000/api/chat/conversation/${conversationId}/messages/`
+          `${API_BASE}/api/chat/conversation/${conversationId}/messages/`
         );
         if (!res.ok) return;
 
@@ -161,7 +163,7 @@ const Chat = () => {
 
     try {
       const res = await authFetch(
-        `http://127.0.0.1:8000/api/chat/conversation/${activeConv.id}/send/`,
+        `${API_BASE}/api/chat/conversation/${activeConv.id}/send/`,
         {
           method: "POST",
           body: JSON.stringify(payload),

@@ -4,6 +4,8 @@ import CreatableSelect from "react-select/creatable";
 import { useAuth } from "../state/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+
 /**
  * Profile page (Option A - instructor manually adds timeslots)
  *
@@ -88,7 +90,7 @@ const Profile = () => {
 
     const loadProfile = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/users/profile/", {
+        const res = await fetch(`${API_BASE}/api/users/profile/`, {
           headers: authHeaders(false),
         });
         if (res.ok) {
@@ -104,7 +106,7 @@ const Profile = () => {
             setPreview(
               data.profile.profile_image.startsWith("http")
                 ? data.profile.profile_image
-                : `http://127.0.0.1:8000${data.profile.profile_image}`
+                : `${API_BASE}${data.profile.profile_image}`
             );
           }
         } else {
@@ -117,7 +119,7 @@ const Profile = () => {
 
     const loadSkills = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/users/skills/");
+        const res = await fetch(`${API_BASE}/api/users/skills/`);
         if (res.ok) {
           const data = await res.json();
           setSkills(data.map((s) => ({ value: s.name, label: s.name })));
@@ -129,7 +131,7 @@ const Profile = () => {
 
     const loadCourses = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/courses/");
+        const res = await fetch(`${API_BASE}/api/courses/`);
         if (res.ok) {
           const data = await res.json();
           // show courses owned by this user (instructor) — handle possible shapes
@@ -149,7 +151,7 @@ const Profile = () => {
 
     const loadTimeslots = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/users/timeslots/", {
+        const res = await fetch(`${API_BASE}/api/users/timeslots/`, {
           headers: authHeaders(false),
         });
         if (res.ok) {
@@ -195,7 +197,7 @@ const Profile = () => {
     // create_or_get skill on backend for any new skill
     for (const skill of newSkills) {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/users/skills/add/", {
+        const res = await fetch(`${API_BASE}/api/users/skills/add/`, {
           method: "POST",
           headers: authHeaders(true),
           body: JSON.stringify({ name: skill.name }),
@@ -245,7 +247,7 @@ const Profile = () => {
         formData.append("profile_image", form.profile_image);
       }
 
-      const res = await fetch("http://127.0.0.1:8000/api/users/profile/update/", {
+      const res = await fetch(`${API_BASE}/api/users/profile/update/`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${accessToken}` }, // DO NOT set content-type: browser will set boundary
         body: formData,
@@ -272,7 +274,7 @@ const Profile = () => {
     setTsLoading(true);
     try {
       if (!accessToken) return;
-      const res = await fetch("http://127.0.0.1:8000/api/users/timeslots/", {
+      const res = await fetch(`${API_BASE}/api/users/timeslots/`, {
         headers: authHeaders(false),
       });
       if (res.ok) {
@@ -297,7 +299,7 @@ const Profile = () => {
     }
     try {
       const body = { start_time: tsStart, end_time: tsEnd || null, note: tsNote || "" };
-      const res = await fetch("http://127.0.0.1:8000/api/users/timeslots/create/", {
+      const res = await fetch(`${API_BASE}/api/users/timeslots/create/`, {
         method: "POST",
         headers: authHeaders(true),
         body: JSON.stringify(body),
@@ -323,7 +325,7 @@ const Profile = () => {
   const handleDeleteTimeslot = async (id) => {
     if (!window.confirm("Delete timeslot?")) return;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/users/timeslots/${id}/`, {
+      const res = await fetch(`${API_BASE}/api/users/timeslots/${id}/`, {
         method: "DELETE",
         headers: authHeaders(false),
       });
@@ -346,7 +348,7 @@ const Profile = () => {
       return;
     }
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/courses/create/", {
+      const res = await fetch(`${API_BASE}/api/courses/create/`, {
         method: "POST",
         headers: authHeaders(true),
         body: JSON.stringify({ title, description, duration, price }),
@@ -361,7 +363,7 @@ const Profile = () => {
           setCourses((prev) => [...prev, data]);
         } else {
           // re-fetch full courses list
-          const cRes = await fetch("http://127.0.0.1:8000/api/courses/");
+          const cRes = await fetch(`${API_BASE}/api/courses/`);
           if (cRes.ok) {
             const all = await cRes.json();
             const my = all.filter(
@@ -383,7 +385,7 @@ const Profile = () => {
 
       // If we get here: res not ok. BUT backend might have still saved course (observed).
       // Try to detect whether the course exists now by re-fetching courses and matching by title + instructor.
-      const reRes = await fetch("http://127.0.0.1:8000/api/courses/");
+      const reRes = await fetch(`${API_BASE}/api/courses/`);
       if (reRes.ok) {
         const all = await reRes.json();
         const found = all.find(
@@ -431,7 +433,7 @@ const Profile = () => {
     try {
       const payload = { timeslot_id: selectedTimeslotId };
       const res = await fetch(
-        `http://127.0.0.1:8000/api/courses/${enrollingCourse.id}/enroll/`,
+        `${API_BASE}/api/courses/${enrollingCourse.id}/enroll/`,
         {
           method: "POST",
           headers: authHeaders(true),
@@ -476,7 +478,7 @@ const Profile = () => {
                   : form.profile_image
                   ? form.profile_image.startsWith("http")
                     ? form.profile_image
-                    : `http://127.0.0.1:8000${form.profile_image}`
+                    : `${API_BASE}${form.profile_image}`
                   : "/default-avatar.png"
               }
               alt="Profile"

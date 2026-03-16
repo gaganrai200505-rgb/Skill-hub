@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from pathlib import Path
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 import os
 import dj_database_url
 
@@ -33,7 +34,6 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,skill-hub-i
 # Application definition
 
 INSTALLED_APPS = [
-    
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'courses',
     'api', 
     'django_extensions',
-    'chat',  # ✅ Add this line
+    'chat',
 ]
 
 
@@ -179,14 +179,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Authentication
 AUTH_USER_MODEL = 'users.CustomUser'
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
-CORS_ALLOW_CREDENTIALS = True
-from datetime import timedelta
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -198,25 +193,24 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
-JAZZMIN_SETTINGS = {
-    "site_title": "SkillShare Hub Admin",
-    "site_header": "SkillShare Hub",
-    "site_brand": "SkillShare Hub",
-    "welcome_sign": "Welcome to SkillShare Hub Admin",
-    "copyright": "© 2025 SkillShare Hub",
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "theme": "default",
-    "custom_css": None,
-    "custom_js": None,
-    "show_ui_builder": False,
-    'icons': {
-    'courses.Skill': 'fas fa-book',
-    'courses.Timeslot': 'fas fa-clock',
-    'courses.Booking': 'fas fa-calendar-check',
-    'users.CustomUser': 'fas fa-user',
-    'users.UserProfile': 'fas fa-id-card',
-}
 
+# Jazzmin Admin Theme Configuration
+JAZZMIN_SETTINGS = {
+    'site_title': 'SkillShare Hub Admin',
+    'site_header': 'SkillShare Hub',
+    'site_brand': 'SkillShare',
+    'welcome_sign': 'Welcome to SkillShare Hub Admin',
+    'copyright': '© 2025 SkillShare Hub',
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'theme': 'light',
+    'custom_css': None,
+    'custom_js': None,
+    'icons': {
+        'courses.Skill': 'fas fa-book',
+        'courses.Timeslot': 'fas fa-clock',
+        'courses.Booking': 'fas fa-calendar-check',
+        'users.CustomUser': 'fas fa-user',
+        'users.UserProfile': 'fas fa-id-card',
+    },
 }
-AUTH_USER_MODEL = 'users.CustomUser'
