@@ -1,1 +1,1 @@
-web: gunicorn skillshare.wsgi
+web: sh -c 'cd backend && gunicorn skillshare.wsgi'
