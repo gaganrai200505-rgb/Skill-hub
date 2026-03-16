@@ -48,24 +48,25 @@ if os.environ.get('ALLOWED_HOSTS'):
 # Remove duplicates
 ALLOWED_HOSTS = list(set(ALLOWED_HOSTS))
 
-# Security settings for production
-if not DEBUG:
+# Security settings - apply in production only
+# Check if we're on Render or production
+IS_PRODUCTION = os.environ.get('RENDER') == 'true'
+
+if IS_PRODUCTION:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    SECURE_BROWSER_XSS_FILTER = True
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_CONTENT_SECURITY_POLICY = {
-        'default-src': ["'self'"],
-        'script-src': ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
-        'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
-        'font-src': ["'self'", "fonts.gstatic.com"],
-        'img-src': ["'self'", "data:", "https:"],
-        'connect-src': ["'self'", "https://skill-hub-il65.onrender.com"],
-    }
+else:
+    # Development settings (localhost)
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
 
 # Application definition
 
