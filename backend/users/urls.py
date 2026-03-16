@@ -15,8 +15,4 @@ urlpatterns = [
     # ✅ Public user profile route
     path("public/<str:username>/", views.get_public_user_profile, name="get_public_user_profile"),
 ]
-# backend/users/urls.py (or backend/chat/urls.py)
-
-
-# users/urls.py (append)
 
