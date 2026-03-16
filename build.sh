@@ -7,9 +7,12 @@ cd backend
 # Install dependencies
 pip install -r requirements.txt
 
+# Create staticfiles directory
+mkdir -p staticfiles
+
 # Run migrations
 python manage.py migrate
 
-# Collect static files
-python manage.py collectstatic --no-input
+# Collect static files (essential for Jazzmin theme)
+python manage.py collectstatic --no-input --clear
 
