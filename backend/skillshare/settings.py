@@ -193,9 +193,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Create staticfiles directory if it doesn't exist
 os.makedirs(STATIC_ROOT, exist_ok=True)
 
-# Configure static files storage for production
-# Use ManifestStaticFilesStorage with WhiteNoise for best Jazzmin compatibility
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+# Use basic Django storage - WhiteNoise middleware handles gzip/caching
+# This is more reliable for Jazzmin on production
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 STATICFILES_DIRS = []
 
