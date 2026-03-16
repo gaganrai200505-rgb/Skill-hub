@@ -2,11 +2,28 @@
 set -o errexit
 
 echo "Starting build process..."
+echo "Current working directory: $(pwd)"
+echo "Files in current directory: $(ls -la)"
 
-# Change to backend directory
-cd backend
-pwd
-echo "Current directory confirmed above ☝️"
+# Check if we're in the project root or backend directory
+if [ ! -d "backend" ] && [ -f "manage.py" ]; then
+    echo "Already in backend directory!"
+    BACKEND_DIR="."
+elif [ -d "backend" ]; then
+    echo "In project root, moving to backend..."
+    BACKEND_DIR="backend"
+    cd backend
+else
+    echo "❌ ERROR: Cannot find backend directory!"
+    echo "Current directory: $(pwd)"
+    echo "Contents: $(ls -la)"
+    exit 1
+fi
+
+echo "=================================="
+echo "Backend directory: $BACKEND_DIR"
+echo "Current location: $(pwd)"
+echo "=================================="
 
 # Install dependencies
 echo "Installing Python dependencies..."
