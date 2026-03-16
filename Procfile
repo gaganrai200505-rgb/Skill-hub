@@ -1,1 +1,1 @@
-web: sh -c 'cd backend && gunicorn skillshare.wsgi'
+web: sh -c 'cd backend && gunicorn skillshare.wsgi --bind 0.0.0.0:${PORT:-10000}'
