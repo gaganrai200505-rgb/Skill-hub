@@ -125,8 +125,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-requested-with",
 ]
 
-# ✅ Optional (development only — uncomment if needed)
-# CORS_ALLOW_ALL_ORIGINS = True
+# ✅ Allow all origins for Vercel frontend (update with specific URL once deployed)
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'skillshare.urls'
 
