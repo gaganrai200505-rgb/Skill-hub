@@ -106,10 +106,13 @@ MIDDLEWARE = [
 # ✅ At top of file
 
 # ✅ Allow from your React app (Vercel + local development)
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000,https://skill-hub-jet.vercel.app,https://skill-hub-il65.onrender.com'
-).split(',')
+# CORS_ALLOWED_ORIGINS = os.environ.get(
+#     'CORS_ALLOWED_ORIGINS',
+#     'http://localhost:3000,http://127.0.0.1:3000,https://skill-hub-jet.vercel.app,https://skill-hub-il65.onrender.com'
+# ).split(',')
+
+# ✅ Temporarily allow all origins for testing (CORS debugging)
+CORS_ALLOW_ALL_ORIGINS = True
 
 # ✅ Allow credentials
 CORS_ALLOW_CREDENTIALS = True
