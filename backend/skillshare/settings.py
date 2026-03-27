@@ -101,6 +101,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'skillshare.middleware.KeepAliveMiddleware',  # Keep server alive on Render
 ]
 
 # ✅ At top of file

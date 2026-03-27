@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+
 const UserProfileView = () => {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const UserProfileView = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/users/public/${username}/`);
+        const res = await fetch(`${API_BASE}/api/users/public/${username}/`);
         if (res.ok) {
           const data = await res.json();
           setUserData(data);
@@ -39,7 +41,7 @@ const UserProfileView = () => {
   useEffect(() => {
     const fetchUserCourses = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/courses/by-user/${username}/`);
+        const res = await fetch(`${API_BASE}/api/courses/by-user/${username}/`);
         if (res.ok) {
           const data = await res.json();
           setCourses(data);
@@ -62,7 +64,7 @@ const UserProfileView = () => {
 
     setEnrolling(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/courses/${courseId}/enroll/`, {
+      const res = await fetch(`${API_BASE}/api/courses/${courseId}/enroll/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +99,7 @@ const UserProfileView = () => {
       userData.user?.username || userData.username || username;
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/chat/start_conversation/", {
+      const res = await fetch(`${API_BASE}/api/chat/start_conversation/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

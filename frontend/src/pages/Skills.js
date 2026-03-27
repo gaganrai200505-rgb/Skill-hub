@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Added for navigation
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
+
 const Skills = () => {
   const [skills, setSkills] = useState([]);
   const [categories, setCategories] = useState(["All"]);
@@ -13,7 +15,7 @@ const Skills = () => {
   // ✅ Fetch skills from backend
   const fetchSkills = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/users/skills/");
+      const res = await fetch(`${API_BASE}/api/users/skills/`);
       if (res.ok) {
         const data = await res.json();
         setSkills(data);
@@ -27,7 +29,7 @@ const Skills = () => {
   // ✅ Fetch categories
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/users/categories/");
+      const res = await fetch(`${API_BASE}/api/users/categories/`);
       if (res.ok) {
         const data = await res.json();
         setCategories(["All", ...data.map((c) => c.name)]);
@@ -63,7 +65,7 @@ const Skills = () => {
   setSelectedSkill({ ...skill, loading: true, users: [] });
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/users/skills/${skill.id}/users/`);
+    const res = await fetch(`${API_BASE}/api/users/skills/${skill.id}/users/`);
     if (res.ok) {
       const data = await res.json();
 

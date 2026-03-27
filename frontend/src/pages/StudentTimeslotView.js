@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../state/AuthContext";
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:8000";
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function StudentTimeslotView() {
